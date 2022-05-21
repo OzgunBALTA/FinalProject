@@ -12,11 +12,29 @@ namespace ConsoleUI
             ProductManager productManager = new ProductManager(new EfProductDal());
             CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
 
-            ProductTest(productManager);
+            //ProductTest(productManager);
 
             //CategoryTest(categoryManager);
 
+            IDataResultTest(productManager);
 
+        }
+
+        private static void IDataResultTest(ProductManager productManager)
+        {
+            var result = productManager.GetProductDetails();
+
+            if (result.Success == true)
+            {
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
         }
 
         private static void CategoryTest(CategoryManager categoryManager)
@@ -33,22 +51,22 @@ namespace ConsoleUI
 
         private static void ProductTest(ProductManager productManager)
         {
-            foreach (var product in productManager.GetAll())
+            foreach (var product in productManager.GetAll().Data)
             {
                 Console.WriteLine(product.ProductName);
             }
             Console.WriteLine("------------------------------------------");
-            foreach (var product in productManager.GetByCategory(1))
+            foreach (var product in productManager.GetByCategory(1).Data)
             {
                 Console.WriteLine(product.ProductName);
             }
             Console.WriteLine("------------------------------------------");
-            foreach (var product in productManager.GetByUnitPrice(50, 100))
+            foreach (var product in productManager.GetByUnitPrice(50, 100).Data)
             {
                 Console.WriteLine(product.ProductName);
             }
             Console.WriteLine("------------------------------------------");
-            foreach (var product in productManager.GetProductDetails())
+            foreach (var product in productManager.GetProductDetails().Data)
             {
                 Console.WriteLine($"{product.ProductName} / {product.CategoryName} / {product.UnitsInStock}");
             }
