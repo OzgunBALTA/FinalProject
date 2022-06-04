@@ -44,12 +44,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_ProductDal.GetAll(),Messages.ProductsListed);
         }
 
-        public IDataResult<List<Product>> GetByCategory(int id)
+        public IDataResult<List<Product>> GetByCategory(int categoryId)
         {
-            return new SuccessDataResult<List<Product>>(_ProductDal.GetAll(p => p.CategoryId == id));
+            return new SuccessDataResult<List<Product>>(_ProductDal.GetAll(p => p.CategoryId == categoryId));
         }
 
-        public IDataResult <Product> GetById(int productId)
+        public IDataResult <Product> GetByProductId(int productId)
         {
             return new SuccessDataResult<Product>(_ProductDal.Get(p => p.ProductId == productId));
         }
