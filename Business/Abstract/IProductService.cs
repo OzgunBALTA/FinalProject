@@ -13,7 +13,7 @@ namespace Business.Abstract
     public interface IProductService
     {
         IDataResult<List<Product>> GetAll();
-        IDataResult<List<Product>> GetByCategory(int productId);
+        IDataResult<List<Product>> GetByCategoryId(int productId);
         IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max);
         IDataResult<List<ProductDetailDto>> GetProductDetails();
         IDataResult<Product> GetByProductId(int productId);

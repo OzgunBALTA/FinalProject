@@ -1,6 +1,5 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
-using DataAccess.Concrete.InMemory;
 using System;
 
 namespace ConsoleUI
@@ -45,7 +44,7 @@ namespace ConsoleUI
                 Console.WriteLine(category.CategoryName);
             }
             Console.WriteLine("------------------------------------------");
-            var c = categoryManager.GetById(1);
+            var c = categoryManager.GetCategoryById(1);
             Console.WriteLine(c.CategoryName);
         }
 
@@ -56,7 +55,7 @@ namespace ConsoleUI
                 Console.WriteLine(product.ProductName);
             }
             Console.WriteLine("------------------------------------------");
-            foreach (var product in productManager.GetByCategory(1).Data)
+            foreach (var product in productManager.GetByCategoryId(1).Data)
             {
                 Console.WriteLine(product.ProductName);
             }

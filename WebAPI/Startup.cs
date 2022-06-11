@@ -36,8 +36,9 @@ namespace WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
             });
-            services.AddSingleton<IProductService, ProductManager>(); // IProductService istendiðinde arka planda ProductManager'i new'ler. Manager içinde data tutulmyorsa kullanýlýr.
-            services.AddSingleton<IProductDal, EfProductDal>(); // EF ile çalýþacaðýmýzý belirttik.
+            //services.AddSingleton<IProductService, ProductManager>(); // Ctor'da IProductService istendiðinde arka planda ProductManager'i new'ler. Manager içinde data tutulmyorsa kullanýlýr.
+            //services.AddSingleton<IProductDal, EfProductDal>(); // EF ile çalýþacaðýmýzý belirttik.
+            //IOC yapýlandýrmasý için Autofac'i kullandýk. Kendi IOC'sini kullanmak istemiyoruz. Çünkü Farklý APIlerde sürekli ayný kodu yazmak istemiyoruz.
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

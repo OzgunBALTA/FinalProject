@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Concrete.EntityFramework
+namespace DataAccess.Concrete.Context
 {
     public class NorthwindContext : DbContext //Db tabloları ile proje classlarını ilişkilendirmek
     {
