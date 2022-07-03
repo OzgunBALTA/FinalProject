@@ -4,6 +4,7 @@ using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors.Autofac;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using System;
@@ -20,8 +21,17 @@ namespace Business.DependencyResolvers.Autofac
         {
             //Instance oluşturmayı API StartUpta yapmak yerine burada yapmak daha iyi. Birden fazla API olabilir çünkü. 
             //Autofac bize AOP imkanı da sağlar.
-            builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance(); // Biri senden IProductService isterse ona ProductManager ver. SingleInstance ile tek instance oluşturulur. Tüm işlemler onun üzerinden yapılır.
-            builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
+            builder.RegisterType<ProductManager>().As<IProductService>(); // Biri senden IProductService isterse ona ProductManager ver. SingleInstance ile tek instance oluşturulur. Tüm işlemler onun üzerinden yapılır.
+            builder.RegisterType<EfProductDal>().As<IProductDal>();
+
+            builder.RegisterType<CategoryManager>().As<ICategoryService>();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>();
+
+            builder.RegisterType<UserManager>().As<IUserService>();
+            builder.RegisterType<EfUserDal>().As<IUserDal>();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly(); //Çalışan program içerisinde
 
@@ -30,7 +40,6 @@ namespace Business.DependencyResolvers.Autofac
                 {
                     Selector = new AspectInterceptorSelector() // Onlar için AspectInterceptorSelector'ı çalıştır. 
                 }).SingleInstance();
-
         }
     }
 }

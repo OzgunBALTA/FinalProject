@@ -12,8 +12,8 @@ namespace Core.Utilities.Interceptors.Autofac
         {
             var classAttributes = type.GetCustomAttributes<MethodInterceptionBaseAttribute>
                 (true).ToList(); // Git Class'ın Attribute'lerini oku listele
-            var methodAttributes = type.GetMethod(method.Name) //Git Metod'un Attribute'lerini oku listele
-                .GetCustomAttributes<MethodInterceptionBaseAttribute>(true);
+            var methodAttributes = type.GetMethod(method.Name) 
+                .GetCustomAttributes<MethodInterceptionBaseAttribute>(true); //Git Metod'un Attribute'lerini oku
             classAttributes.AddRange(methodAttributes);
 
             return classAttributes.OrderBy(x => x.Priority).ToArray(); // Bulduklarını öncelik sırasına göre sırala.

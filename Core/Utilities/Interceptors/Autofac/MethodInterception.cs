@@ -5,7 +5,7 @@ namespace Core.Utilities.Interceptors.Autofac
 {
     public abstract class MethodInterception : MethodInterceptionBaseAttribute
     {
-        //Attributeleri çalıştırıyoruz.
+        // <Attributeleri çalıştırıyoruz.
         // invocation = çalıştırmak istediğimiz metot
         protected virtual void OnBefore(IInvocation invocation) { }
         protected virtual void OnAfter(IInvocation invocation) { }
