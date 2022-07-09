@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Security.JWT
 {
+    //AccessToken Oluşturmak için metodumuzun interface'si
     public interface ITokenHelper
     {
         AccessToken CreateToken(User user, List<OperationClaim> operationClaims);

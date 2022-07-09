@@ -8,6 +8,7 @@ namespace Core.Utilities.Security.Hashing
 {
     public class HashingHelper
     {
+        //Şifre oluşturma ve sorgulama için yazdığımız kodlar.
         public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte [] passwordSalt)
             //String bir password girer, byte passwordSalt ve passwordHash çıkar.
         {
@@ -24,7 +25,7 @@ namespace Core.Utilities.Security.Hashing
         public static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
             // Login olurken parolayı doğruladığımız kısım
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt)) //Şifreyi çözerken bu saltı kullan.
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 
