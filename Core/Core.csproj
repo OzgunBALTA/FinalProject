@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CrossCuttingConcers\Caching\Concrete\Redis\" />
     <Folder Include="Entities\Dtos\" />
   </ItemGroup>
 

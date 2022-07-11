@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using Core.Aspects.Autofac.Performance;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,8 @@ namespace Core.Utilities.Interceptors.Autofac
             var methodAttributes = type.GetMethod(method.Name) 
                 .GetCustomAttributes<MethodInterceptionBaseAttribute>(true); //Git Metod'un Attribute'lerini oku
             classAttributes.AddRange(methodAttributes);
+            //classAttributes.Add(new ExceptionLogAspect(typeof(FileLogger)));   Tüm metotlara Loglama Ekle.
+            //classAttributes.Add(new PerformanceAspect(5));   Tüm metotlara Performans yönetimi Ekle.
 
             return classAttributes.OrderBy(x => x.Priority).ToArray(); // Bulduklarını öncelik sırasına göre sırala.
         }

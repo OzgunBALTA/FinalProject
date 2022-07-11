@@ -2,6 +2,8 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcers.Validation.FluentValidation;
 using Core.Utilities.Business;
@@ -30,8 +32,9 @@ namespace Business.Concrete
             _ProductDal = productDal;
             _categoryService = categoryService;
         }
-        [SecuredOperation("product.add, admin")]
-        [ValidationAspect(typeof(ProductValidator))]
+        [SecuredOperation("product.add, admin")] // Sadece ekleme ve admin yetkisi olanlar ekleme yapabilir
+        [ValidationAspect(typeof(ProductValidator))] // Doğrulama yaptık
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId),
@@ -45,13 +48,14 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
 
         }
-
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Delete(Product product)
         {
             _ProductDal.Delete(product);
             return new SuccessResult(Messages.ProductDeleted);
         }
 
+        [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour == 22)
@@ -66,6 +70,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_ProductDal.GetAll(p => p.CategoryId == categoryId));
         }
 
+        [CacheAspect]
         public IDataResult <Product> GetByProductId(int productId)
         {
             return new SuccessDataResult<Product>(_ProductDal.Get(p => p.ProductId == productId));
@@ -87,6 +92,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")] //IProductService'te içinde Get geçen tüm Cache'leri sil.
         public IResult Update(Product product)
         {
             IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId),
@@ -97,6 +103,14 @@ namespace Business.Concrete
             }
 
             _ProductDal.Update(product);
+            return new SuccessResult(Messages.ProductUpdated);
+        }
+
+        [TransactionScopeAspect]
+        public IResult TransactionalOperation(Product product)
+        {
+            _ProductDal.Update(product);
+            _ProductDal.Add(product);
             return new SuccessResult(Messages.ProductUpdated);
         }
 
@@ -133,5 +147,6 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
     }
 }

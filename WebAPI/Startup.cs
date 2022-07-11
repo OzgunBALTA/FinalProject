@@ -35,7 +35,7 @@ namespace WebAPI
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services) //Servisleri newlediðimiz kýsým
         {
 
             services.AddControllers();
@@ -45,7 +45,7 @@ namespace WebAPI
             });
             //services.AddSingleton<IProductService, ProductManager>(); // Ctor'da IProductService istendiðinde arka planda ProductManager'i new'ler. Manager içinde data tutulmyorsa kullanýlýr.
             //services.AddSingleton<IProductDal, EfProductDal>(); // EF ile çalýþacaðýmýzý belirttik.
-            //IOC yapýlandýrmasý için Autofac'i kullandýk. Kendi IOC'sini kullanmak istemiyoruz. Çünkü Farklý APIlerde sürekli ayný kodu yazmak istemiyoruz.
+            //IOC yapýlandýrmasý için Autofac'i kullandýk. Kendi IoC(newlemeler)'sini kullanmak istemiyoruz. Çünkü Farklý APIlerde sürekli ayný kodu yazmak istemiyoruz.
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 

@@ -31,6 +31,7 @@ namespace WebAPI.Controllers
                 //return Ok(result.Data); //Success = true ise sadece datayı döndürür.
                 return Ok(result); //Tüm result parametrelerini döndürür. 200
             }
+
             return BadRequest(result); //Success = false ise sadece datayı döndürür. data=null success=false message="". 400
         }
 
@@ -42,6 +43,7 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
 
@@ -53,6 +55,19 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("transaction")]
+        public IActionResult TransactionalOperation(Product product)
+        {
+            var result = _productService.TransactionalOperation(product);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
             return BadRequest(result);
         }
     }
