@@ -3,6 +3,8 @@ using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
+using Core.Utilities.Helpers.FileHelper.Abstract;
+using Core.Utilities.Helpers.FileHelper.Concrete;
 using Core.Utilities.Interceptors.Autofac;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
@@ -30,8 +32,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
 
+            builder.RegisterType<ProductImageManager>().As<IProductImageService>();
+            builder.RegisterType<EfProductImageDal>().As<IProductImageDal>();
+
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+            builder.RegisterType<FileHelper>().As<IFileHelper>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly(); //Çalışan program içerisinde
 

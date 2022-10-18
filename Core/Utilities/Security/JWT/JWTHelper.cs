@@ -37,7 +37,8 @@ namespace Core.Utilities.Security.JWT
             return new AccessToken
             {
                 Token = token,
-                Expiration = _accessTokenExpiration
+                Expiration = _accessTokenExpiration,
+                RefreshToken = GenerateRefreshToken()
             };
 
         }
@@ -54,6 +55,16 @@ namespace Core.Utilities.Security.JWT
                 signingCredentials: signingCredentials
             );
             return jwt;
+        }
+
+        public string GenerateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using (RandomNumberGenerator random = RandomNumberGenerator.Create())
+            {
+                random.GetBytes(number);
+                return Convert.ToBase64String(number);
+            }
         }
 
         private IEnumerable<Claim> SetClaims(User user, List<OperationClaim> operationClaims)

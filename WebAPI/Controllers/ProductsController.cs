@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -26,6 +27,7 @@ namespace WebAPI.Controllers
         public IActionResult GetAll()
         {
             var result = _productService.GetAll();
+            Thread.Sleep(1000); //1sn durdurduk.
             if (result.Success == true)
             {
                 //return Ok(result.Data); //Success = true ise sadece datayı döndürür.
@@ -63,6 +65,54 @@ namespace WebAPI.Controllers
         public IActionResult TransactionalOperation(Product product)
         {
             var result = _productService.TransactionalOperation(product);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycategoryid")]
+        public IActionResult GetByCategoryId(int categoryId)
+        {
+            var result = _productService.GetByCategoryId(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("productdetails")]
+        public IActionResult GetProductDetails()
+        {
+            var result = _productService.GetProductsDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getporductdetailsbyid")]
+        public IActionResult GetProductDetailsById(int productId)
+        {
+            var result = _productService.GetProductDetailsById(productId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyunitprice")]
+        public IActionResult GetByUnitPrice(decimal min, decimal max)
+        {
+            var result = _productService.GetByUnitPrice(min, max);
             if (result.Success)
             {
                 return Ok(result);
