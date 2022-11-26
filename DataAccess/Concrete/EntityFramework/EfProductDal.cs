@@ -27,6 +27,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ProductName = p.ProductName,
                                  CategoryName = c.CategoryName,
                                  UnitsInStock = p.UnitsInStock,
+                                 UnitPrice = p.UnitPrice,
                                  ProductImagePath = (from i in context.ProductImages where 
                                                      i.ProductId == p.ProductId select i.ImagePath).ToList()
                              };

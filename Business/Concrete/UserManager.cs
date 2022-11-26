@@ -4,6 +4,7 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,23 @@ namespace Business.Concrete
             return _userDal.GetClaims(user);
         }
 
+        public List<OperationClaim> GetClaimsByEmail(string email)
+        {
+            User user = GetUserByMail(email);
+            List<OperationClaim> claims = GetClaims(user);
+            return claims;
+        }
+
         public User GetUserByMail(string email)
         {
             return _userDal.Get(u => u.Email == email);
+        }
+
+        public List<UserDetailsDto> GetUserDetailsByEmail(string email)
+        {
+            User user = GetUserByMail(email);
+            List<UserDetailsDto> userDetailsDto = _userDal.userDetailsDto(user);
+            return userDetailsDto;
         }
     }
 }

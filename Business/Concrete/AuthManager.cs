@@ -58,6 +58,18 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck, Messages.SuccessfulLogin);
         }
 
+        public IDataResult<List<UserDetailsDto>> GetUserDetailsByEmail(string email)
+        {
+            var userDetails = _userService.GetUserDetailsByEmail(email);
+            return new SuccessDataResult<List<UserDetailsDto>>(userDetails);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaimsByEmail(string email)
+        {
+            var claims = _userService.GetClaimsByEmail(email);
+            return new SuccessDataResult<List<OperationClaim>>(claims);
+        }
+
         public IResult UserExists(string email)
         {
             if (_userService.GetUserByMail(email) != null)

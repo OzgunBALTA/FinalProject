@@ -13,6 +13,7 @@ namespace Entities.DTOs
         public string ProductName { get; set; }
         public string CategoryName { get; set; }
         public short UnitsInStock { get; set; }
+        public decimal UnitPrice { get; set; }
         public List<string> ProductImagePath { get; set; }
     }
 }

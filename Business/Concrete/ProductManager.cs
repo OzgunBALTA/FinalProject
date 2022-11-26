@@ -32,8 +32,8 @@ namespace Business.Concrete
             _ProductDal = productDal;
             _categoryService = categoryService;
         }
-        [SecuredOperation("product.add, admin")] // Sadece ekleme ve admin yetkisi olanlar ekleme yapabilir
-        [ValidationAspect(typeof(ProductValidator))] // Doğrulama yaptık
+        //[SecuredOperation("product.add, admin")] // Sadece ekleme ve admin yetkisi olanlar ekleme yapabilir
+        //[ValidationAspect(typeof(ProductValidator))] // Doğrulama yaptık
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
@@ -91,7 +91,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(_ProductDal.GetProductDetails());
         }
 
-        [ValidationAspect(typeof(ProductValidator))]
+        //[ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")] //IProductService'te içinde Get geçen tüm Cache'leri sil.
         public IResult Update(Product product)
         {

@@ -1,14 +1,7 @@
 ﻿using Business.Abstract;
-using Business.Concrete;
-using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -61,6 +54,31 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("delete")]
+        public IActionResult Delete(int id)
+        {
+            var product = _productService.GetByProductId(id);
+            var result = _productService.Delete(product.Data);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(Product product)
+        {
+            var result = _productService.Update(product);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpPost("transaction")]
         public IActionResult TransactionalOperation(Product product)
         {
@@ -85,7 +103,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("productdetails")]
+        [HttpGet("getproductdetails")]
         public IActionResult GetProductDetails()
         {
             var result = _productService.GetProductsDetails();
