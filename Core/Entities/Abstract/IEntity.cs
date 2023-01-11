@@ -8,6 +8,5 @@ namespace Core.Entities.Abstract
 {
     public interface IEntity
     {
-        //IEntity implemet eden class bir veritabanı tablosudur.
     }
 }

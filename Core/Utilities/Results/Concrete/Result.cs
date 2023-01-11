@@ -11,7 +11,7 @@ namespace Core.Utilities.Results.Concrete
     {
         
 
-        public Result(bool success, string message):this(success) //Burayı çalıştır aynı zamanda success'i de çalıştır. Bu sayede ister ekrana mesaj veririm ister vermem. This sınıfa iletilecek mesajı içerir.
+        public Result(bool success, string message):this(success)
         {
             Message = message;
         }

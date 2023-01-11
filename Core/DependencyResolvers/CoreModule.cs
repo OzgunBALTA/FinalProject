@@ -14,13 +14,12 @@ namespace Core.DependencyResolvers
 {
     public class CoreModule : ICoreModule
     {
-        //Bağımlılık zincirinde olmayanları (CrossCuttingConcers) enjekte etmek için buraya yazıyoruz.
         public void Load(IServiceCollection serviceCollection) 
         {
-            serviceCollection.AddMemoryCache(); //Bu Microsoftun kendi enjektesi Bunu yazdığımızda MemoryCache'i enjekte ediyo. Addsinleton yazmamızın sebebi ileride redis kullanırsak diye. Redise geçersen bunu sil.
-            serviceCollection.AddSingleton<ICacheManager, MemoryCacheManager>(); //Redis kullanırsak burayı RedisCacheManager olarak revize etmemiz yeterli
-            serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();//Tüm arayüzlerde jwt çalıştırabilmek için newleme yapmayı buraya yazdık.
-            serviceCollection.AddSingleton<Stopwatch>(); //PerformanceAspect için 
+            serviceCollection.AddMemoryCache(); 
+            serviceCollection.AddSingleton<ICacheManager, MemoryCacheManager>(); 
+            serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            serviceCollection.AddSingleton<Stopwatch>();
         }
     }
 }

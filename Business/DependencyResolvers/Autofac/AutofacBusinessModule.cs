@@ -19,11 +19,9 @@ namespace Business.DependencyResolvers.Autofac
 {
     public class AutofacBusinessModule : Module
     {
-        protected override void Load(ContainerBuilder builder) //Program her başlatıldığında çalışır.
+        protected override void Load(ContainerBuilder builder)
         {
-            //Instance oluşturmayı API StartUpta yapmak yerine burada yapmak daha iyi. Birden fazla API olabilir çünkü. 
-            //Autofac bize AOP imkanı da sağlar.
-            builder.RegisterType<ProductManager>().As<IProductService>(); // Biri senden IProductService isterse ona ProductManager ver. SingleInstance ile tek instance oluşturulur. Tüm işlemler onun üzerinden yapılır.
+            builder.RegisterType<ProductManager>().As<IProductService>(); 
             builder.RegisterType<EfProductDal>().As<IProductDal>();
 
             builder.RegisterType<CategoryManager>().As<ICategoryService>();
@@ -39,12 +37,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
             builder.RegisterType<FileHelper>().As<IFileHelper>();
 
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly(); //Çalışan program içerisinde
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces() // implemente edilmiş interface'leri bul.
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
                 .EnableInterfaceInterceptors(new ProxyGenerationOptions()
                 {
-                    Selector = new AspectInterceptorSelector() // Onlar için AspectInterceptorSelector'ı çalıştır. 
+                    Selector = new AspectInterceptorSelector()
                 }).SingleInstance();
         }
     }

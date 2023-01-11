@@ -5,8 +5,6 @@ namespace Core.Utilities.Interceptors.Autofac
 {
     public abstract class MethodInterception : MethodInterceptionBaseAttribute
     {
-        // <Attributeleri çalıştırıyoruz.
-        // invocation = çalıştırmak istediğimiz metot
         protected virtual void OnBefore(IInvocation invocation) { }
         protected virtual void OnAfter(IInvocation invocation) { }
         protected virtual void OnException(IInvocation invocation, System.Exception e) { }
@@ -14,7 +12,7 @@ namespace Core.Utilities.Interceptors.Autofac
         public override void Intercept(IInvocation invocation)
         {
             var isSuccess = true;
-            OnBefore(invocation); // Metot çalışmadan önce,
+            OnBefore(invocation);
             try
             {
                 invocation.Proceed();
@@ -22,17 +20,17 @@ namespace Core.Utilities.Interceptors.Autofac
             catch (Exception e)
             {
                 isSuccess = false;
-                OnException(invocation, e); // Metotta hata olursa,
+                OnException(invocation, e);
                 throw;
             }
             finally
             {
                 if (isSuccess)
                 {
-                    OnSuccess(invocation); //  Metot başarılı olduğunda,
+                    OnSuccess(invocation);
                 }
             }
-            OnAfter(invocation); // Metottan sonra çalışmasını istersek burayı çalıştıracağız.
+            OnAfter(invocation);
         }
     }
 }

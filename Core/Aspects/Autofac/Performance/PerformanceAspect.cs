@@ -14,9 +14,9 @@ namespace Core.Aspects.Autofac.Performance
     public class PerformanceAspect : MethodInterception
     {
         private int _interval;
-        private Stopwatch _stopwatch; //Stopwatch: Kronometre
+        private Stopwatch _stopwatch;
 
-        public PerformanceAspect(int interval) //interval: kaç saniyeyi geçerse uyarı versin
+        public PerformanceAspect(int interval)
         {
             _interval = interval;
             _stopwatch = ServiceTool.ServiceProvider.GetService<Stopwatch>();
@@ -25,17 +25,16 @@ namespace Core.Aspects.Autofac.Performance
 
         protected override void OnBefore(IInvocation invocation)
         {
-            _stopwatch.Start(); //Metot çalışmaya başladığında kronometreyi çalıştır.
+            _stopwatch.Start();
         }
 
         protected override void OnAfter(IInvocation invocation)
         {
             if (_stopwatch.Elapsed.TotalSeconds > _interval)
             {
-                //Eğer metodun çalışması verdiğim süreyi aşarsa console'a logla. Başla yere de loglayabiliriz.
                 Debug.WriteLine($"Performance : {invocation.Method.DeclaringType.FullName}.{invocation.Method.Name}-->{_stopwatch.Elapsed.TotalSeconds}");
             }
-            _stopwatch.Reset(); //Metot bitince kronometreyi resetle.
+            _stopwatch.Reset();
         }
     }
 }

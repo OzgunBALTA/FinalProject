@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Security.JWT
 {
-    //appsettingsteki TokenOptions bölümünü nesne haline getirdik.
     public class TokenOptions
     {
         public string Audience { get; set; }

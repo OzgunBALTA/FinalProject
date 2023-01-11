@@ -23,13 +23,16 @@ namespace DataAccess.Concrete.EntityFramework
                              join c in context.Categories
                              on p.CategoryId equals c.CategoryId
                              select new ProductDetailDto
-                             { ProductId = p.ProductId,
+                             {
+                                 ProductId = p.ProductId,
                                  ProductName = p.ProductName,
                                  CategoryName = c.CategoryName,
                                  UnitsInStock = p.UnitsInStock,
                                  UnitPrice = p.UnitPrice,
-                                 ProductImagePath = (from i in context.ProductImages where 
-                                                     i.ProductId == p.ProductId select i.ImagePath).ToList()
+                                 ProductImagePath = (from i in context.ProductImages
+                                                     where
+                                                     i.ProductId == p.ProductId
+                                                     select i.ImagePath).ToList()
                              };
                 return filter == null ? result.ToList() : result.Where(filter).ToList();
             }

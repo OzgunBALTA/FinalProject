@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.Context
 {
-    public class NorthwindContext : DbContext //Db tabloları ile proje classlarını ilişkilendirmek
+    public class NorthwindContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -11,12 +11,9 @@ using System.Threading.Tasks;
 
 namespace Core.CrossCuttingConcers.Caching.Concrete.Microsoft
 {      
-    //Adapter Pattern: varolan sistemi kendi sistemimize uyarladık.
     public class MemoryCacheManager : ICacheManager
     {
-        IMemoryCache _memoryCache; //Microsoftun kendi Cache yönteminin interface'i
-        // Consracter ile çalıştıramayız. Çünkü zincir içinde değil. Bunlar Cross Cuting Concer.
-        //O yüzden ICoreModule ile enjekte edilmeli.
+        IMemoryCache _memoryCache;
 
         public MemoryCacheManager()
         {
@@ -40,7 +37,7 @@ namespace Core.CrossCuttingConcers.Caching.Concrete.Microsoft
 
         public bool IsAdd(string key)
         {
-            return _memoryCache.TryGetValue(key, out _); //Birşey döndürmek istemediğimiz için _ yaptık. C#ta bişey döndürme demek böyle
+            return _memoryCache.TryGetValue(key, out _);
         }
 
         public void Remove(string key)
@@ -48,12 +45,10 @@ namespace Core.CrossCuttingConcers.Caching.Concrete.Microsoft
             _memoryCache.Remove(key);
         }
 
-        public void RemoveByPattern(string pattern) //Çalışma anında bellekten silmeye yarar.
+        public void RemoveByPattern(string pattern) 
         {
             var cacheEntriesCollectionDefinition = typeof(MemoryCache).GetProperty("EntriesCollection", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            //Çalışırken git belleğe bak MemoryCache türünde (.Net bunları EnteriesCollection ismiyle tutar) olanları getir.
             var cacheEntriesCollection = cacheEntriesCollectionDefinition.GetValue(_memoryCache) as dynamic;
-            // Onların içinde _memoryCache olanları bul
             List<ICacheEntry> cacheCollectionValues = new List<ICacheEntry>();
 
             foreach (var cacheItem in cacheEntriesCollection)
@@ -63,12 +58,10 @@ namespace Core.CrossCuttingConcers.Caching.Concrete.Microsoft
             }
 
             var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            //Yazılan pattern bu özelliklerde olacak.
             var keysToRemove = cacheCollectionValues.Where(d => regex.IsMatch(d.Key.ToString())).Select(d => d.Key).ToList();
-            //yazdığımız patterne göre filtrele uygun olanları listele
             foreach (var key in keysToRemove)
             {
-                _memoryCache.Remove(key); //listenin içindekileri bellekten sil.
+                _memoryCache.Remove(key);
             }
         }
     }

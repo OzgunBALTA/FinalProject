@@ -16,10 +16,9 @@ namespace Core.Utilities.Interceptors.Autofac
             var methodAttributes = type.GetMethod(method.Name) 
                 .GetCustomAttributes<MethodInterceptionBaseAttribute>(true); //Git Metod'un Attribute'lerini oku
             classAttributes.AddRange(methodAttributes);
-            //classAttributes.Add(new ExceptionLogAspect(typeof(FileLogger)));   Tüm metotlara Loglama Ekle.
-            //classAttributes.Add(new PerformanceAspect(5));   Tüm metotlara Performans yönetimi Ekle.
+            classAttributes.Add(new PerformanceAspect(5));
 
-            return classAttributes.OrderBy(x => x.Priority).ToArray(); // Bulduklarını öncelik sırasına göre sırala.
+            return classAttributes.OrderBy(x => x.Priority).ToArray();
         }
     }
 }

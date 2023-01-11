@@ -34,8 +34,7 @@ namespace WebAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services) //Servisleri newlediðimiz kýsým
+        public void ConfigureServices(IServiceCollection services) 
         {
             
             services.AddControllers();
@@ -43,11 +42,8 @@ namespace WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
             });
-            //services.AddSingleton<IProductService, ProductManager>(); // Ctor'da IProductService istendiðinde arka planda ProductManager'i new'ler. Manager içinde data tutulmyorsa kullanýlýr.
-            //services.AddSingleton<IProductDal, EfProductDal>(); // EF ile çalýþacaðýmýzý belirttik.
-            //IOC yapýlandýrmasý için Autofac'i kullandýk. Kendi IoC(newlemeler)'sini kullanmak istemiyoruz. Çünkü Farklý APIlerde sürekli ayný kodu yazmak istemiyoruz.
 
-            services.AddCors(); //Apimize istek yapan kiþilerin eriþebilmesi için yazýyoruz.
+            services.AddCors();
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
@@ -69,7 +65,6 @@ namespace WebAPI
             services.AddDependencyResolvers(new ICoreModule[] { new CoreModule() });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -79,18 +74,15 @@ namespace WebAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
             }
 
-            //Bu ziyaretçden bir istek gelirse bu benim internet sitem ona istediðini ver.
-            //AllowAnyHeader = Tüm istekleri ver.
-            //Birden fazla sitem olursa , ile ayýrýp hepsini yazacaðým.
-            app.UseCors(builder=>builder.WithOrigins("http://localhost:3000").AllowAnyHeader()); //bu ziyaretçden bir istek gelirse istediðini ver.
+            app.UseCors(builder=>builder.WithOrigins("http://localhost:3000").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthentication();        //Giriþ iznini verdiðimiz yer.
+            app.UseAuthentication();     
 
-            app.UseAuthorization();     //Girdikten sonra neler yapabilir yetkileri ne ?
+            app.UseAuthorization();   
 
             app.UseEndpoints(endpoints =>
             {

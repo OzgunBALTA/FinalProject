@@ -49,11 +49,11 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductImage>> GetProductImageByProductId(int productId)
         {
-            //var result = BusinessRules.Run(CheckIfProductImageNull(productId));
-            //if (!result.Success)
-            //{
-            //    return new ErrorDataResult<List<ProductImage>>(GetDefaultImage(productId).Data);
-            //}
+            var result = BusinessRules.Run(CheckIfProductImageNull(productId));
+            if (!result.Success)
+            {
+                return new ErrorDataResult<List<ProductImage>>(GetDefaultImage(productId).Data);
+            }
 
             return new SuccessDataResult<List<ProductImage>>(_productImageDal.GetAll(p => p.ProductId == productId));
         }

@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Core.Aspects.Autofac.Caching
 {
-    //Veriyi manipüle eden metotlara eklenir. Yeni veri eklenirse, ver silinir ya da güncellenirse eski Cache'i sil.
     public class CacheRemoveAspect : MethodInterception
     {
         private string _pattern;
@@ -24,7 +23,6 @@ namespace Core.Aspects.Autofac.Caching
         }
 
         protected override void OnSuccess(IInvocation invocation) 
-            //Metot başarılı olursa çalıştır. Örneğin veri eklenememişse boşuna Cache'i silme
         {
             _cacheManager.RemoveByPattern(_pattern);
         }

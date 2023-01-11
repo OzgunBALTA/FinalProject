@@ -20,21 +20,19 @@ namespace WebAPI.Controllers
         public IActionResult GetAll()
         {
             var result = _productService.GetAll();
-            Thread.Sleep(1000); //1sn durdurduk.
             if (result.Success == true)
             {
-                //return Ok(result.Data); //Success = true ise sadece datayı döndürür.
-                return Ok(result); //Tüm result parametrelerini döndürür. 200
+                return Ok(result);
             }
 
-            return BadRequest(result); //Success = false ise sadece datayı döndürür. data=null success=false message="". 400
+            return BadRequest(result);
         }
 
         [HttpGet("getbyproductid")]
         public IActionResult GetByProductId(int productid)
         {
             var result = _productService.GetByProductId(productid);
-            if (result.Success) //Default == true olarak çalışır.
+            if (result.Success)
             {
                 return Ok(result);
             }

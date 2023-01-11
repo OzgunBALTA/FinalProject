@@ -13,27 +13,26 @@ using Business.Constants;
 
 namespace Business.BusinessAspects.Autofac
 {
-    //JWT
     public class SecuredOperation : MethodInterception
     {
         private string[] _roles;
-        private IHttpContextAccessor _httpContextAccessor; //JWT ile istek yapan herkes için bir context oluşur.
+        private IHttpContextAccessor _httpContextAccessor;
 
         public SecuredOperation(string roles)
         {
-            _roles = roles.Split(','); //Attribute'den gelen elemanlarla (admin,user) bir dizi oluşturur.
+            _roles = roles.Split(',');
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
 
         }
 
-        protected override void OnBefore(IInvocation invocation) //Metottan önce çalıştır.
+        protected override void OnBefore(IInvocation invocation)
         {
-            var roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles(); //Kullanıcının rollerini bul
+            var roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
             foreach (var role in _roles)
             {
                 if (roleClaims.Contains(role))
                 {
-                    return; //ilgili rol varsa çalıştırmaya devam et.
+                    return;
                 }
             }
             throw new Exception(Messages.AuthorizationDenied);

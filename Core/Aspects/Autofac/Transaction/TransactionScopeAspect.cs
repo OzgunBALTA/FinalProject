@@ -9,8 +9,6 @@ using System.Transactions;
 
 namespace Core.Aspects.Autofac.Transaction
 {
-    //Bankacılık işlemi gibi işlemlerde mesela ETF işleminde para gönderenin hesabından düşerken alıcı hesabına yüklenmeli.
-    //Eğer alıcı hesabına yüklenirken bir hata olursa para gönderici hesabına tekrar dönmeli. Bu işlemi Transaction ile kontrol ederiz.
     public class TransactionScopeAspect : MethodInterception
     {
         public override void Intercept(IInvocation invocation)
@@ -20,11 +18,11 @@ namespace Core.Aspects.Autofac.Transaction
                 try
                 {
                     invocation.Proceed();
-                    transactionScope.Complete(); //İşlem başarılıysa 
+                    transactionScope.Complete();
                 }
                 catch (System.Exception e)
                 {
-                    transactionScope.Dispose(); //İşlem başarısız olursa iptal et.
+                    transactionScope.Dispose();
                     throw;
                 }
             }

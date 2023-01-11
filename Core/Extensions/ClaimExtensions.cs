@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 
 namespace Core.Extensions
 {
-    //Extensions ile varolan bir nesneye yeni metotlar ekleyebiliyoruz.
     public static class ClaimExtensions
     {
         public static void AddEmail(this ICollection<Claim> claims, string email) 
-            //bir metotta this ICollection<Claim> gibi ifade görürsek AddEmail metodunu Claim classına ekliyoruz demektir.
-            //Bunu yapabilmek için hem class hem de metot static olmalıdır.
         {
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, email));
         }
@@ -31,7 +28,6 @@ namespace Core.Extensions
         public static void AddRoles(this ICollection<Claim> claims, string[] roles)
         {
             roles.ToList().ForEach(role => claims.Add(new Claim(ClaimTypes.Role, role))); 
-            //Gönderilen rolleri listeye çevir. Herbirini tek tek dolaş herbirini claim'e ekle.
         }
     }
 }

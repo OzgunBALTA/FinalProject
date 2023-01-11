@@ -8,11 +8,11 @@ namespace Core.Utilities.Results.Concrete
 {
     public class SuccessResult : Result
     {
-        public SuccessResult(string message) : base(true, message) //Mesajlı geri dönüş
+        public SuccessResult(string message) : base(true, message)
         {
             
         }
-        public SuccessResult() : base(true) //Mesajsız geri dönüş
+        public SuccessResult() : base(true)
         {
 
         }

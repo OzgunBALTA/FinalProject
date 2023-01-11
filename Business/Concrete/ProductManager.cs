@@ -32,8 +32,8 @@ namespace Business.Concrete
             _ProductDal = productDal;
             _categoryService = categoryService;
         }
-        //[SecuredOperation("product.add, admin")] // Sadece ekleme ve admin yetkisi olanlar ekleme yapabilir
-        //[ValidationAspect(typeof(ProductValidator))] // Doğrulama yaptık
+        [SecuredOperation("product.add, admin")]
+        [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
@@ -58,10 +58,6 @@ namespace Business.Concrete
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
-            //if (DateTime.Now.Hour == 4)
-            //{
-            //    return new ErrorDataResult<List<Product>>(_ProductDal.GetAll(), Messages.MaintenanceTime);
-            //}
             return new SuccessDataResult<List<Product>>(_ProductDal.GetAll(),Messages.ProductsListed);
         }
 
@@ -83,16 +79,11 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductDetailDto>> GetProductsDetails()
         {
-            //if (DateTime.Now.Hour == 4)
-            //{
-            //    return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
-            //}
-
             return new SuccessDataResult<List<ProductDetailDto>>(_ProductDal.GetProductDetails());
         }
 
-        //[ValidationAspect(typeof(ProductValidator))]
-        [CacheRemoveAspect("IProductService.Get")] //IProductService'te içinde Get geçen tüm Cache'leri sil.
+        [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
             IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId),
@@ -114,7 +105,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductUpdated);
         }
 
-        private IResult CheckIfProductCountOfCategoryCorrect(int categoryId) //-İş kodu parçası- Aynı kategoride maks 10 ürün olabilir.
+        private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
             var result = _ProductDal.GetAll(p => p.CategoryId == categoryId).Count;
             if (result > 10)
@@ -137,7 +128,7 @@ namespace Business.Concrete
            return new SuccessResult();
         }
 
-        private IResult CheckIfCategoryLimitExceded() //Burada başka servisten veri alıp karar verdik.
+        private IResult CheckIfCategoryLimitExceded()
         {
             var result = _categoryService.GetAll();
             if (result.Data.Count > 15)

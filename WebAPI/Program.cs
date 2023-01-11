@@ -20,11 +20,11 @@ namespace WebAPI
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args) //Serverýn yayýnla ilgili durumlarýn olduðu kýsým.
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory()) //.Net Core IOC'sini kullanma servis saðlayýcý olarak Autofac kullan dedik.
+            Host.CreateDefaultBuilder(args) 
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureContainer<ContainerBuilder>(builder=> 
                 {
-                    builder.RegisterModule(new AutofacBusinessModule()); //AutofactBusinessModule kodlarýný çalýþtýacaðýmýzý belirttik.
+                    builder.RegisterModule(new AutofacBusinessModule());
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
